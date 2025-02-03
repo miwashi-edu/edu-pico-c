@@ -15,7 +15,7 @@ echo "➡️  Run './build.sh' to build the project."
 
 ```bash
 # Create the main CMakeLists.txt
-cat > "$PROJECT_NAME/CMakeLists.txt" << EOF
+cat > ./CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.16)
 project($PROJECT_NAME LANGUAGES CXX)
 
@@ -31,16 +31,14 @@ EOF
 ```
 
 ```bash
-# Create lib/CMakeLists.txt for the library
-cat > "$PROJECT_NAME/lib/CMakeLists.txt" << EOF
+cat > ./lib/CMakeLists.txt << EOF
 add_library(my_lib my_lib.cpp)
-target_include_directories(my_lib PUBLIC \${PROJECT_SOURCE_DIR}/include)
+target_include_directories(my_lib PUBLIC \/include)
 EOF
 ```
 
 ```bash
-# Create library header file
-cat > "$PROJECT_NAME/include/my_lib.h" << EOF
+cat > ./include/my_lib.h << EOF
 #ifndef MY_LIB_H
 #define MY_LIB_H
 
@@ -51,7 +49,6 @@ std::string my_function();
 #endif // MY_LIB_H
 EOF
 
-# Create library implementation file
 cat > "$PROJECT_NAME/lib/my_lib.cpp" << EOF
 #include "my_lib.h"
 
@@ -62,7 +59,7 @@ EOF
 ```
 
 ```bash
-cat > "$PROJECT_NAME/tests/CMakeLists.txt" << EOF
+cat > ./tests/CMakeLists.txt << EOF
 include(FetchContent)
 
 FetchContent_Declare(
@@ -82,7 +79,7 @@ EOF
 
 ```bash
 # Create test file
-cat > "$PROJECT_NAME/tests/test_main.cpp" << EOF
+cat > ./tests/test_main.cpp << EOF
 #include "gtest/gtest.h"
 #include "my_lib.h"
 
@@ -98,8 +95,7 @@ EOF
 ```
 
 ```bash
-# Create a .gitignore file
-cat > "$PROJECT_NAME/.gitignore" << EOF
+cat > .gitignore << EOF
 /build/
 /CMakeCache.txt
 /CMakeFiles/
@@ -109,19 +105,18 @@ EOF
 ```
 
 ```bash
-# Create src/CMakeLists.txt for the main executable
-cat > "$PROJECT_NAME/src/CMakeLists.txt" << EOF
+cat > ./src/CMakeLists.txt << EOF
 add_executable(\${PROJECT_NAME} main.cpp)
 target_include_directories(\${PROJECT_NAME} PRIVATE \${PROJECT_SOURCE_DIR}/include)
 EOF
 
 # Create main.cpp
-cat > "$PROJECT_NAME/src/main.cpp" << EOF
+cat > ./src/main.cpp << EOF
 #include <iostream>
 #include "my_lib.h"
 
 int main() {
-std::cout << "Hello from $PROJECT_NAME!" << std::endl;
+std::cout << "Hello from mycppproject!" << std::endl;
 std::cout << "Library says: " << my_function() << std::endl;
 return 0;
 }
@@ -129,8 +124,7 @@ EOF
 ```
 
 ```bash
-# Create a build script
-cat > "$PROJECT_NAME/build.sh" << EOF
+cat > ./build.sh. << EOF
 #!/bin/bash
 mkdir -p build
 cd build
