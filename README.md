@@ -44,8 +44,6 @@ cat > ./include/my_lib.h << EOF
 #include <string>
 
 std::string my_function();
-
-#endif // MY_LIB_H
 EOF
 
 cat > ./lib/my_lib.cpp << EOF
