@@ -5,8 +5,8 @@ cd ~
 cd ws
 mkdir mycppproject && cd mycppproject
 mkdir -p ./{src,include,lib,tests,build}
-echo "target_link_libraries(\mycppproject PRIVATE my_lib)" >> ./src/CMakeLists.txt
-chmod +x ./build.sh"
+echo "target_link_libraries(mycppproject PRIVATE my_lib)" >> ./src/CMakeLists.txt
+chmod +x ./build.sh
 
 # Print success message
 echo "✅ C++ CMake project mycppproject created successfully!"
@@ -17,15 +17,15 @@ echo "➡️  Run './build.sh' to build the project."
 # Create the main CMakeLists.txt
 cat > ./CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.16)
-project($PROJECT_NAME LANGUAGES CXX)
+project(mycppproject LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Add subdirectories
 add_subdirectory(src)
+add_subdirectory(lib)
 add_subdirectory(tests)
-
 enable_testing()
 EOF
 ```
@@ -33,14 +33,13 @@ EOF
 ```bash
 cat > ./lib/CMakeLists.txt << EOF
 add_library(my_lib my_lib.cpp)
-target_include_directories(my_lib PUBLIC \/include)
+target_include_directories(my_lib PUBLIC include)
 EOF
 ```
 
 ```bash
 cat > ./include/my_lib.h << EOF
-#ifndef MY_LIB_H
-#define MY_LIB_H
+#pragma once
 
 #include <string>
 
@@ -49,7 +48,7 @@ std::string my_function();
 #endif // MY_LIB_H
 EOF
 
-cat > "$PROJECT_NAME/lib/my_lib.cpp" << EOF
+cat > ./lib/my_lib.cpp << EOF
 #include "my_lib.h"
 
 std::string my_function() {
@@ -106,8 +105,9 @@ EOF
 
 ```bash
 cat > ./src/CMakeLists.txt << EOF
-add_executable(\${PROJECT_NAME} main.cpp)
-target_include_directories(\${PROJECT_NAME} PRIVATE \${PROJECT_SOURCE_DIR}/include)
+add_executable(mycppproject} main.cpp)
+target_include_directories(mycppproject PRIVATE ./src/include)
+target_link_libraries(mycppproject PRIVATE my_lib)  # 🔥 Added this!
 EOF
 
 # Create main.cpp
@@ -124,11 +124,12 @@ EOF
 ```
 
 ```bash
-cat > ./build.sh. << EOF
+cat > ./build.sh << EOF
 #!/bin/bash
 mkdir -p build
 cd build
 cmake ..
 make -j\$(nproc)
 EOF
+chmod +x ./build.sh
 ```
