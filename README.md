@@ -96,7 +96,7 @@ EOF
 
 ```bash
 cat > ./src/CMakeLists.txt << EOF
-add_executable(mycppproject} main.cpp)
+add_executable(mycppproject main.cpp)
 target_include_directories(mycppproject PRIVATE ./src/include)
 target_link_libraries(mycppproject PRIVATE my_lib)  # 🔥 Added this!
 EOF
