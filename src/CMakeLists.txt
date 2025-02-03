@@ -1,0 +1,5 @@
+add_library(wifi_connect wifi_connect.c)
+add_library(update_firmware update_firmware.c)
+
+target_link_libraries(wifi_connect pico_stdlib pico_cyw43_arch_lwip_threadsafe_background)
+target_link_libraries(update_firmware pico_stdlib hardware_flash)
