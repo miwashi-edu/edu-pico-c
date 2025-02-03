@@ -1,0 +1,32 @@
+name: Build Pico Project
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y gcc-arm-none-eabi cmake ninja-build
+
+      - name: Set up Pico SDK
+        run: |
+          git clone --depth=1 https://github.com/raspberrypi/pico-sdk.git
+          cd pico-sdk
+          git submodule update --init
+          echo "PICO_SDK_PATH=$(pwd)" >> $GITHUB_ENV
+
+      - name: Build firmware
+        run: |
+          mkdir -p build && cd build
+          cmake ..
+          make -j$(nproc)
+          
+      - name: Upload firmware artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: pico-firmware
+          path: build/*.uf2
