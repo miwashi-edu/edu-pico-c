@@ -6,15 +6,9 @@ cd ws
 mkdir mycppproject && cd mycppproject
 mkdir -p ./{src,include,lib,tests,build}
 echo "target_link_libraries(mycppproject PRIVATE my_lib)" >> ./src/CMakeLists.txt
-chmod +x ./build.sh
-
-# Print success message
-echo "✅ C++ CMake project mycppproject created successfully!"
-echo "➡️  Run './build.sh' to build the project."
 ```
 
 ```bash
-# Create the main CMakeLists.txt
 cat > ./CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.16)
 project(mycppproject LANGUAGES CXX)
@@ -22,7 +16,6 @@ project(mycppproject LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Add subdirectories
 add_subdirectory(src)
 add_subdirectory(lib)
 add_subdirectory(tests)
