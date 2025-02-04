@@ -25,7 +25,7 @@ EOF
 
 ```bash
 cat > ./src/CMakeLists.txt << EOF
-add_executable(\${PROJECT_NAME} main.cpp)
+add_executable(main.cpp)
 EOF
 ```
 
