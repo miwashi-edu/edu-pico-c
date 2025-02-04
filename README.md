@@ -19,6 +19,10 @@ brew install coreutils # Installs npro
 
 ### Windows
 
+```bash
+# coming
+```
+
 ### Linux
 
 ```bash
