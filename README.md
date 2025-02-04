@@ -93,20 +93,6 @@ int main() {
 EOF
 ```
 
-## .gitignore
-
-```bash
-cat > .gitignore << EOF
-/build/
-/CMakeCache.txt
-/CMakeFiles/
-/cmake_install.cmake
-/Makefile
-/cmake-build-debug
-.idea
-EOF
-```
-
 ## Build the project
 
 ```bash
