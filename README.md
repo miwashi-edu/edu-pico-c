@@ -39,9 +39,6 @@ cd ..
 cd myproject
 ```
 
-## Set env
-
-```
 ## CMakeLists.txt (project config)
 
 ```bash
