@@ -15,8 +15,9 @@ export PICO_SDK_PATH=~/ws/pico-sdk
 ### Mac
 
 ```bash
-brew install arm-none-eabi-gcc
 brew install picotool
+brew tap ArmMbed/homebrew-formulae
+brew install arm-none-eabi-gcc
 ```
 
 ### Linux
