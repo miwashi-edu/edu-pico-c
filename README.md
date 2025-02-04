@@ -29,6 +29,11 @@ cd ~
 cd ws
 mkdir myproject && cd myproject
 mkdir -p ./{src,include,lib,tests,build}
+```
+
+## Set up git
+
+```bash
 cat > .gitignore << EOF
 /build/
 /CMakeCache.txt
