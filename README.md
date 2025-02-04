@@ -51,6 +51,8 @@ cat > .gitignore << EOF
 /CMakeFiles/
 /cmake_install.cmake
 /Makefile
+/cmake-build-debug
+.idea
 EOF
 
 ```
