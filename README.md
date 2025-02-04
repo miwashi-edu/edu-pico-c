@@ -76,9 +76,10 @@ EOF
 ```bash
 cat > ./src/main.cpp << EOF
 #include <iostream>
+using namespace std;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    cout << "Hello, World!\n";
     return 0;
 }
 EOF
