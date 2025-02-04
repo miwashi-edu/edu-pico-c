@@ -2,6 +2,10 @@
 
 [cmake](https://cmake.org/)  
 [coreutils](https://www.gnu.org/software/coreutils/)
+[isocpp](https://isocpp.org/std/the-standard)  
+[cppreference](https://en.cppreference.com/w)  
+[cplusplus](https://cplusplus.com/reference/)  
+[cout](https://cplusplus.com/reference/iostream/cout/?kw=cout)  
 
 ## prepare
 
