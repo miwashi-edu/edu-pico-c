@@ -42,7 +42,7 @@ cd myproject
 ## CMakeLists.txt (project config)
 
 ```bash
-export PICO_SDK_PATH=$HOME/ws/pico-sdk
+export PICO_SDK_PATH=~/ws/pico-sdk
 cat > CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.16)
 include(\$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)  # Import Pico SDK
