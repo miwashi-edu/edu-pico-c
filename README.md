@@ -45,14 +45,14 @@ EOF
 ## .gitignore
 
 ```bash
-cat > ./src/main.cpp << EOF
-#include <iostream>
-
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
+cat > .gitignore << EOF
+/build/
+/CMakeCache.txt
+/CMakeFiles/
+/cmake_install.cmake
+/Makefile
 EOF
+
 ```
 
 ## build.sh
