@@ -14,13 +14,14 @@
 ```bash
 brew update
 brew install cmake
-brew install coreutils # Installs npro
+brew install coreutils # Installs nproc
+brew install gcc
 ```
 
 ### Windows
 
 ```bash
-# coming
+choco install cmake
 ```
 
 ### Linux
@@ -28,6 +29,7 @@ brew install coreutils # Installs npro
 ```bash
 sudo apt update
 sudo apt install cmake
+sudo apt install g++
 ```
 
 ## Instructions
