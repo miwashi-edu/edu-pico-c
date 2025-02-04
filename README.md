@@ -103,4 +103,5 @@ EOF
 ```bash
 cmake -B build
 make -C build
+./bin/hello
 ```
