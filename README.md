@@ -37,8 +37,16 @@ sudo apt install g++
 ```bash
 cd ~
 cd ws
-mkdir myproject && cd myproject
-mkdir -p ./{src,include,lib,tests,build}
+mkdir myproject
+cd myproject
+mkdir src
+mkdir include
+mkdir tests
+mkdir lib
+mkdir build
+touch CMakeLists.txt
+touch ./src/CMakeLists.txt
+./src/main.cpp
 ```
 
 ## Set up git
@@ -51,7 +59,7 @@ cat > .gitignore << EOF
 /cmake_install.cmake
 /Makefile
 /cmake-build-debug
-.idea
+.idea/
 EOF
 git init
 git add .
