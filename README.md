@@ -49,7 +49,7 @@ touch ./src/CMakeLists.txt
 ./src/main.cpp
 ```
 
-## Set up git
+## Set up git !heredoc
 
 ```bash
 cat > .gitignore << EOF
@@ -66,7 +66,7 @@ git add .
 git commit -m "Initial Commit"
 ```
 
-## CMakeLists.txt (Project Structure)
+## CMakeLists.txt (Project Structure) !heredoc
 
 ```bash
 cat > CMakeLists.txt << EOF
@@ -81,7 +81,7 @@ add_subdirectory(src)
 EOF
 ```
 
-## src/CMakeLists.txt (Executable)
+## src/CMakeLists.txt (Executable) !heredoc
 
 ```bash
 cat > ./src/CMakeLists.txt << EOF
@@ -89,7 +89,7 @@ add_executable(hello main.cpp)
 EOF
 ```
 
-## src/main.cpp
+## src/main.cpp !heredoc
 
 ```bash
 cat > ./src/main.cpp << EOF
