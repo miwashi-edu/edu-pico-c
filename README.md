@@ -46,7 +46,7 @@ mkdir lib
 mkdir build
 touch CMakeLists.txt
 touch ./src/CMakeLists.txt
-./src/main.cpp
+touch ./src/main.cpp
 ```
 
 ## Set up git !heredoc
