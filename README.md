@@ -26,6 +26,7 @@ apt-get update && apt-get install -y \
     vim \
     nano \
     gdb \
+    git \
     && mkdir -p /var/run/sshd"
 ```
 
