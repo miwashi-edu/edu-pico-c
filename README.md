@@ -1,112 +1,65 @@
 # edu-pico-c
 
-[cmake](https://cmake.org/)  
-[coreutils](https://www.gnu.org/software/coreutils/)
-[isocpp](https://isocpp.org/std/the-standard)  
-[cppreference](https://en.cppreference.com/w)  
-[cplusplus](https://cplusplus.com/reference/)  
-[cout](https://cplusplus.com/reference/iostream/cout/?kw=cout)  
-
 ## prepare
-
-### Mac
-
-```bash
-brew update
-brew install cmake
-brew install coreutils # Installs nproc
-brew install gcc
-```
-
-### Windows
-
-```bash
-choco install cmake
-```
-
-### Linux
-
-```bash
-sudo apt update
-sudo apt install cmake
-sudo apt install g++
-```
 
 ## Instructions
 
 ```bash
+docker run -d --name rpi5-dev \
+    --network iotnet \
+    --hostname rpi5-dev \
+    -p 2222:22 \
+    -e TZ=UTC \
+    balenalib/raspberrypi5-debian:bookworm \
+    /bin/bash -c "while true; do sleep 30; done"
+```
+
+## Install c development environment
+
+```bash
+docker exec -it rpi5-dev bash -c "
+apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    openssh-server \
+    sudo \
+    vim \
+    nano \
+    gdb \
+    && mkdir -p /var/run/sshd"
+```
+
+## Add dev user
+
+> Change user and password
+
+```bash
+docker exec -it rpi5-dev bash -c "
+useradd -m -s /bin/bash [user] && \
+echo '[user]:[password]' | chpasswd && \
+usermod -aG sudo [user]"
+```
+
+## Enable SSH
+
+```bash
+docker exec -it rpi5-dev bash -c "
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+service ssh restart"
+```
+
+## Login
+
+```
+ssh [user]@localhost -p 2222
+
+# if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!
+# vi ~/.ssh/known_hosts
+# remove key for localhost:2222
+
 cd ~
-cd ws
-mkdir myproject
-cd myproject
-mkdir src
-mkdir include
-mkdir tests
-mkdir lib
-mkdir build
-touch CMakeLists.txt
-touch ./src/CMakeLists.txt
-./src/main.cpp
+mkdir ws
 ```
 
-## Set up git !heredoc
 
-```bash
-cat > .gitignore << EOF
-/build/
-/CMakeCache.txt
-/CMakeFiles/
-/cmake_install.cmake
-/Makefile
-/cmake-build-debug
-.idea/
-EOF
-git init
-git add .
-git commit -m "Initial Commit"
-```
-
-## CMakeLists.txt (Project Structure) !heredoc
-
-```bash
-cat > CMakeLists.txt << EOF
-cmake_minimum_required(VERSION 3.16)
-project(myproject LANGUAGES CXX)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY \${CMAKE_SOURCE_DIR}/bin)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-add_subdirectory(src)
-EOF
-```
-
-## src/CMakeLists.txt (Executable) !heredoc
-
-```bash
-cat > ./src/CMakeLists.txt << EOF
-add_executable(hello main.cpp)
-EOF
-```
-
-## src/main.cpp !heredoc
-
-```bash
-cat > ./src/main.cpp << EOF
-#include <iostream>
-using namespace std;
-
-int main() {
-    cout << "Hello, World!\n";
-    return 0;
-}
-EOF
-```
-
-## Build the project
-
-```bash
-cmake -B build
-make -C build
-./bin/hello
-```
