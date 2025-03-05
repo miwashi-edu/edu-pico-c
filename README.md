@@ -116,7 +116,7 @@ make -C build
 > Change ssid, psk and key_mgmt
 
 ```bash
-cat <<EOF > /boot/wpa_supplicant.conf
+cat <<EOF > wpa_supplicant.conf
 country=US
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
