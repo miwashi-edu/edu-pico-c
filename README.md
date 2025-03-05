@@ -110,3 +110,21 @@ cmake -B build
 make -C build
 ./bin/hello
 ```
+
+## Router config file
+
+> Change ssid, psk and key_mgmt
+
+```bash
+cat <<EOF > /boot/wpa_supplicant.conf
+country=US
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="router"
+    psk="your_wifi_password"
+    key_mgmt=WPA-PSK
+}
+EOF
+```
