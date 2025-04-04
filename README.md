@@ -1,99 +1,117 @@
 # edu-pico-c
 
-## Prepare
+> Hello World with cmake
+
+## Premises
+
+## Login
+
+```
+ssh [user]@localhost -p 2222
+# ctrl-d to end session
+```
+
+## Instructions
+
+### scaffold project
 
 ```bash
 cd ~
 cd ws
-git clone -b master https://github.com/raspberrypi/pico-sdk.git
-cd pico-sdk
-git submodule update --init
-export PICO_SDK_PATH=~/ws/pico-sdk
-```
-
-
-### Mac
-
-```bash
-brew install picotool
-brew tap ArmMbed/homebrew-formulae
-brew install arm-none-eabi-gcc
-```
-
-### Linux
-
-```bash
-sudo apt update
-sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
-```
-
-### Windows
-
-```bash
-```
-
-
-
-## Instructions
-
-```bash
-cd ..
+mkdir -p myproject
 cd myproject
+mkdir src
+mkdir include
+mkdir tests
+mkdir lib
+mkdir build
+touch CMakeLists.txt
+touch ./src/CMakeLists.txt
+touch ./src/main.cpp
 ```
 
-## CMakeLists.txt (project config)
+### Set up git
+
+> We use git to
+> 1. Share our work on github
+> 2. Repeat when memorising
+>
+> The *.ignore* **url** is not difficult to memorise, it is very useful if you need python .gitignore just change *C%2B%2B* (C++) to *python*.
 
 ```bash
-export PICO_SDK_PATH=~/ws/pico-sdk
+curl -o .gitignore https://raw.githubusercontent.com/github/gitignore/main/C%2B%2B.gitignore
+git init
+git branch -m main # if you didn't change git to use main instead of maste
+git add .
+git commit -m "Initial Commit"
+```
+
+### CMakeLists.txt (Project Structure) !heredoc
+
+> OBS if you write the code, remove the backslas from \${CMAKE_SOURCE_DIR}/bin)
+
+```bash
 cat > CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.16)
-include(\$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)  # Import Pico SDK
-
-project(pico-blink LANGUAGES C CXX)
-pico_sdk_init()  # Initialize Pico SDK
-
+project(myproject LANGUAGES CXX)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY \${CMAKE_SOURCE_DIR}/bin)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 add_subdirectory(src)
+
+install(TARGETS hello DESTINATION bin)
 EOF
 ```
 
-## src/CMakeLists.txt
+### src/CMakeLists.txt (Executable) !heredoc
 
 ```bash
 cat > ./src/CMakeLists.txt << EOF
-add_executable(pico-blink main.cpp)
-
-# Link necessary Pico libraries
-target_link_libraries(pico-blink pico_stdlib)
-
-# Enable USB and UART output
-pico_enable_stdio_usb(pico-blink 1)
-pico_enable_stdio_uart(pico-blink 1)
-
-# Create .uf2 firmware for flashing to the Pico
-pico_add_extra_outputs(pico-blink)
+add_executable(hello main.cpp)
 EOF
 ```
-## ./src/main.cpp
+
+### src/main.cpp !heredoc
 
 ```bash
 cat > ./src/main.cpp << EOF
-#include "pico/stdlib.h"
+#include <iostream>
+using namespace std;
 
 int main() {
-    const uint LED_PIN = 25; // Pico onboard LED (GPIO 25)
-    
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
-
-    while (true) {
-        gpio_put(LED_PIN, 1);
-        sleep_ms(500);
-        gpio_put(LED_PIN, 0);
-        sleep_ms(500);
-    }
+    cout << "Hello, World!\n";
+    return 0;
 }
 EOF
 ```
+
+### Build the project
+
+```bash
+cmake -B build
+make -C build
+./bin/hello
+```
+
+### Reset to commit or delete myproject
+
+#### Delete project
+```bash
+cd ~
+cd ws
+rm -rf myproject
+```
+
+#### Reset to commit
+```bash
+cd ~
+cd ws
+cd myproject
+git reset --hard
+git clean -df
+```
+
+# Repeat until dead or know it --> scaffold project
 
