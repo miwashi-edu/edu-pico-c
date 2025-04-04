@@ -71,6 +71,18 @@ apt-get update && apt-get install -y \
     && mkdir -p /var/run/sshd"
 ```
 
+## Install picotool
+
+```bash
+docker exec -it rpi5-dev bash -c "
+apt-get update && apt-get install -y libusb-1.0-0-dev git cmake && \
+cd /home/[user] && \
+git clone https://github.com/raspberrypi/picotool.git && \
+cd picotool && \
+mkdir build && cd build && \
+cmake .. && make && make install"
+```
+
 ## Add dev user
 
 > Change user and password
