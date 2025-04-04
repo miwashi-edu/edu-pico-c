@@ -67,6 +67,7 @@ apt-get update && apt-get install -y \
     nano \
     gdb \
     git \
+    python3 \
     && mkdir -p /var/run/sshd"
 ```
 
