@@ -1,5 +1,4 @@
 # edu-pico-c
-# edu-raspberry-os
 
 > Setup raspberry docker machine
 >
