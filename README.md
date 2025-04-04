@@ -44,15 +44,22 @@ cd myproject
 ## CMakeLists.txt (project config)
 
 ```bash
-export PICO_SDK_PATH=~/ws/pico-sdk
 cat > CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.16)
-include(\$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)  # Import Pico SDK
-
 project(pico-blink LANGUAGES C CXX)
-pico_sdk_init()  # Initialize Pico SDK
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY \${CMAKE_SOURCE_DIR}/bin)
+include(FetchContent)
+FetchContent_Declare(
+  pico_sdk
+  GIT_REPOSITORY https://github.com/raspberrypi/pico-sdk.git
+  GIT_TAG master  # Or pin to a specific release
+)
+FetchContent_MakeAvailable(pico_sdk)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "\${CMAKE_SOURCE_DIR}/bin")
+
+# Initialize the Pico SDK
+pico_sdk_init()
 
 add_subdirectory(src)
 EOF
