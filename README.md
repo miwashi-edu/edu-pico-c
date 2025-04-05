@@ -89,7 +89,7 @@ git clone -b master https://github.com/raspberrypi/pico-sdk.git /opt/pico-sdk &&
 cd /opt/pico-sdk && \
 git submodule update --init --recursive && \
 rm -f /etc/profile.d/pico-sdk.sh && \
-echo 'export PICO_SDK_PATH=/opt/pico-sdk' > /etc/profile.d/pico-sdk.sh && \
+echo 'export PICO_SDK_PATH=/opt/pico-sdk' > /etc/profile.d/pico-sdk.sh"
 ```
 
 ## Install picotool
