@@ -7,19 +7,26 @@
 ## Login
 
 ```
-ssh [user]@localhost -p 2222
+ssh dev@localhost -p 2222
 # ctrl-d to end session
 ```
 
 ## Instructions
 
-### scaffold project
+### Create project
 
-```bash
+```
 cd ~
 cd ws
 mkdir -p myproject
 cd myproject
+gh repo create myproject --public --source=. --remote=origin --push
+```
+
+
+### scaffold project
+
+```bash
 mkdir src
 mkdir include
 mkdir tests
