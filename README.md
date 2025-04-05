@@ -9,6 +9,7 @@
 ### iotnet exists
 
 ```bash
+docker network inspect iotnet >/dev/null 2>&1 || \
 docker network create --driver bridge --subnet 192.168.2.0/24 --gateway 192.168.2.1 iotnet
 ```
 
@@ -29,14 +30,12 @@ git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
 git config --global github.user "your-github-username"
 
-ssh-keygen -t ed25519 -C "your-email@example.com" -f ~/.ssh/id_ed25519 -N "" #Generate SSH key
-cat ~/.ssh/id_ed25519.pub #Print it on screen for copying and adding to github SSH keys.
+ssh-keygen -t ed25519 -C "your-email@example.com" -f ~/.ssh/id_ed25519 -N ""
+cat ~/.ssh/id_ed25519.pub  # Add this to GitHub SSH keys
 
-# Test git login
-ssh -T git@github.com
+ssh -T git@github.com  # Test SSH login
 
-git config --global --list # Check global config
-#git config --list # Repository config
+git config --global --list
 ```
 
 ## Instructions
@@ -71,27 +70,36 @@ apt-get update && apt-get install -y \
     && mkdir -p /var/run/sshd"
 ```
 
+## Add dev user
+
+```bash
+docker exec -it rpi5-dev bash -c "
+useradd -m -s /bin/bash dev && \
+echo 'dev:dev' | chpasswd && \
+usermod -aG sudo dev"
+``
+
+## Install pico-sdk
+
+```bash
+docker exec -it rpi5-dev bash -c "
+git clone -b master https://github.com/raspberrypi/pico-sdk.git /opt/pico-sdk && \
+cd /opt/pico-sdk && \
+git submodule update --init && \
+echo 'export PICO_SDK_PATH=/opt/pico-sdk' > /etc/profile.d/pico-sdk.sh && \
+chmod +x /etc/profile.d/pico-sdk.sh && \
+source /etc/profile.d/pico-sdk.sh"
+```
+
 ## Install picotool
 
 ```bash
 docker exec -it rpi5-dev bash -c "
-apt-get update && apt-get install -y libusb-1.0-0-dev git cmake && \
-cd /home/[user] && \
-git clone https://github.com/raspberrypi/picotool.git && \
-cd picotool && \
+apt-get update && apt-get install -y libusb-1.0-0-dev git cmake build-essential && \
+git clone https://github.com/raspberrypi/picotool.git /opt/picotool && \
+cd /opt/picotool && \
 mkdir build && cd build && \
 cmake .. && make && make install"
-```
-
-## Add dev user
-
-> Change user and password
-
-```bash
-docker exec -it rpi5-dev bash -c "
-useradd -m -s /bin/bash [user] && \
-echo '[user]:[password]' | chpasswd && \
-usermod -aG sudo [user]"
 ```
 
 ## Enable SSH
@@ -111,16 +119,9 @@ service ssh restart"
 > When you login next time you are asked about options, choose 2.
 
 ```bash
-sudo apt update
-sudo apt install zsh -y
-chsh -s $(which zsh)
-```
-
-> Optional add [Oh My Zsh](https://ohmyz.sh) (follow instructions)
-> You need to logout first to start zsh.
-```bash
-#optional Oh My Zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+docker exec -it rpi5-dev bash -c "
+apt-get update && apt-get install -y zsh && \
+chsh -s \$(which zsh) dev"
 ```
 
 ## Login
@@ -140,16 +141,34 @@ mkdir ws
 
 ## Generate locale
 
-> This starts a GUI where you use space to choose sv_SE as locale.
-
-```bash
-sudo locale-gen sv_SE.UTF-8
-sudo dpkg-reconfigure locales
+```bashdocker exec -it rpi5-dev bash -c "
+apt-get install -y locales && \
+echo 'sv_SE.UTF-8 UTF-8' >> /etc/locale.gen && \
+locale-gen sv_SE.UTF-8 && \
+update-locale LANG=sv_SE.UTF-8
+docker exec rpi5-dev locale
 ```
 
 ## Configure vim
 
 ```bash
-echo 'set nocompatible' >> ~/.vimrc
+docker exec rpi5-dev bash -c "echo 'set nocompatible' >> \$(eval echo ~dev)/.vimrc"
 ```
 
+## Oh My Zsh (optional)
+
+> Optional add [Oh My Zsh](https://ohmyz.sh) (follow instructions)
+> You need to logout first to start zsh.
+```bash
+#optional Oh My Zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+## Change Username (optional)
+
+```bash
+docker exec -it rpi5-dev bash -c "
+usermod -l miwa dev && \
+usermod -d /home/miwa -m miwa && \
+groupmod -n miwa dev"
+```
