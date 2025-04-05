@@ -63,6 +63,7 @@ docker exec -it rpi5-dev bash -c "
 useradd -m -s /bin/bash dev && \
 echo 'dev:dev' | chpasswd && \
 usermod -aG sudo dev"
+docker exec -it rpi5-dev bash -c "
 echo 'export PICO_SDK_PATH=/opt/pico-sdk' >> /home/dev/.bashrc && \
 echo 'export PICO_SDK_PATH=/opt/pico-sdk' >> /home/dev/.zshrc && \
 chown dev:dev /home/dev/.bashrc /home/dev/.zshrc"
