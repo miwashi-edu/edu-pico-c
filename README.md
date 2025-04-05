@@ -5,7 +5,7 @@
 ## Instructions
 
 ```bash
-ssh dev@localhost:2222
+ssh dev@localhost -p 2222
 ```
 
 ### Install github client 
