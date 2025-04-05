@@ -77,7 +77,7 @@ docker exec -it rpi5-dev bash -c "
 useradd -m -s /bin/bash dev && \
 echo 'dev:dev' | chpasswd && \
 usermod -aG sudo dev"
-``
+```
 
 ## Install pico-sdk
 
