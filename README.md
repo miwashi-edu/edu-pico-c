@@ -20,25 +20,10 @@ docker stop rpi5-dev
 docker rm rpi5-dev
 ```
 
-### Configure git
-
-> This is one time only
-
-```bash
-git config --global init.defaultBranch main
-git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"
-git config --global github.user "your-github-username"
-
-ssh-keygen -t ed25519 -C "your-email@example.com" -f ~/.ssh/id_ed25519 -N ""
-cat ~/.ssh/id_ed25519.pub  # Add this to GitHub SSH keys
-
-ssh -T git@github.com  # Test SSH login
-
-git config --global --list
-```
-
 ## Instructions
+
+
+### Create Pico Development Container
 
 ```bash
 docker run -d --name rpi5-dev \
@@ -51,7 +36,7 @@ docker run -d --name rpi5-dev \
     /bin/bash -c "while true; do sleep 30; done"
 ```
 
-## Install c development environment
+### Install c development environment
 
 ```bash
 docker exec -it rpi5-dev bash -c "
@@ -71,7 +56,7 @@ apt-get update && apt-get install -y \
     && mkdir -p /var/run/sshd"
 ```
 
-## Add dev user
+### Add dev user
 
 ```bash
 docker exec -it rpi5-dev bash -c "
@@ -80,7 +65,29 @@ echo 'dev:dev' | chpasswd && \
 usermod -aG sudo dev"
 ```
 
-## Install pico-sdk
+### Enable SSH
+
+> If the container stops, you need to run: `docker exec -it rpi5-dev bash -c "service ssh restart"`
+
+```bash
+docker exec -it rpi5-dev bash -c "
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+service ssh restart"
+```
+
+### Setup zsh  (zeeshell) - optional
+
+> It requires you logout and login again
+> When you login next time you are asked about options, choose 2.
+
+```bash
+docker exec -it rpi5-dev bash -c "
+apt-get update && apt-get install -y zsh && \
+chsh -s \$(which zsh) dev"
+```
+
+### Install pico-sdk
 
 ```bash
 docker exec -it rpi5-dev bash -c "
@@ -92,7 +99,7 @@ rm -f /etc/profile.d/pico-sdk.sh && \
 echo 'export PICO_SDK_PATH=/opt/pico-sdk' > /etc/profile.d/pico-sdk.sh"
 ```
 
-## Install picotool
+### Install picotool
 
 ```bash
 docker exec -it rpi5-dev bash -c "
@@ -104,29 +111,23 @@ mkdir build && cd build && \
 cmake .. && make && make install"
 ```
 
-## Enable SSH
+### Generate locale
 
-> If the container stops, you need to run: `docker exec -it rpi5-dev bash -c "service ssh restart"`
-
-```bash
-docker exec -it rpi5-dev bash -c "
-sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
-sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
-service ssh restart"
+```bashdocker exec -it rpi5-dev bash -c "
+apt-get install -y locales && \
+echo 'sv_SE.UTF-8 UTF-8' >> /etc/locale.gen && \
+locale-gen sv_SE.UTF-8 && \
+update-locale LANG=sv_SE.UTF-8
+docker exec rpi5-dev locale
 ```
 
-## Setup zsh  (zeeshell) - optional
-
-> It requires you logout and login again
-> When you login next time you are asked about options, choose 2.
+### Configure vim
 
 ```bash
-docker exec -it rpi5-dev bash -c "
-apt-get update && apt-get install -y zsh && \
-chsh -s \$(which zsh) dev"
+docker exec rpi5-dev bash -c "echo 'set nocompatible' >> \$(eval echo ~dev)/.vimrc"
 ```
 
-## Login
+### Login
 
 > If you get `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!` then  
 > vi ~/.ssh/known_hosts  
@@ -147,23 +148,25 @@ mkdir ws
 # ctrl-d to end session
 ```
 
-## Generate locale
+#### Configure git (in container)
 
-```bashdocker exec -it rpi5-dev bash -c "
-apt-get install -y locales && \
-echo 'sv_SE.UTF-8 UTF-8' >> /etc/locale.gen && \
-locale-gen sv_SE.UTF-8 && \
-update-locale LANG=sv_SE.UTF-8
-docker exec rpi5-dev locale
-```
-
-## Configure vim
+> This is one time only
 
 ```bash
-docker exec rpi5-dev bash -c "echo 'set nocompatible' >> \$(eval echo ~dev)/.vimrc"
+git config --global init.defaultBranch main
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+git config --global github.user "your-github-username"
+
+ssh-keygen -t ed25519 -C "your-email@example.com" -f ~/.ssh/id_ed25519 -N ""
+cat ~/.ssh/id_ed25519.pub  # Add this to GitHub SSH keys
+
+ssh -T git@github.com  # Test SSH login
+
+git config --global --list
 ```
 
-## Oh My Zsh (optional)
+#### Oh My Zsh (optional - in container)
 
 > Optional add [Oh My Zsh](https://ohmyz.sh) (follow instructions)
 > You need to logout first to start zsh.
@@ -172,7 +175,7 @@ docker exec rpi5-dev bash -c "echo 'set nocompatible' >> \$(eval echo ~dev)/.vim
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-## Change Username (optional)
+#### Change Username (optional - in container)
 
 ```bash
 docker exec -it rpi5-dev bash -c "
