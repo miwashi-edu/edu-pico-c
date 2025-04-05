@@ -128,12 +128,18 @@ chsh -s \$(which zsh) dev"
 
 ## Login
 
+> If you get `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!` then  
+> vi ~/.ssh/known_hosts  
+> remove key for localhost:2222
+> (or with sed) `sed -i.bak '/\[localhost\]:2222/d' ~/.ssh/known_hosts`
+
 ```bash
 ssh [user]@localhost -p 2222
 
 # if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!
 # vi ~/.ssh/known_hosts
 # remove key for localhost:2222
+# sed -i.bak '/\[localhost\]:2222/d' ~/.ssh/known_hosts
 
 cd ~
 mkdir ws
