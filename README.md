@@ -46,6 +46,7 @@ docker run -d --name rpi5-dev \
     --hostname rpi5-dev \
     -p 2222:22 \
     -e TZ=UTC \
+    -e PICO_SDK_PATH=/opt/pico-sdk \
     balenalib/raspberrypi5-debian:bookworm \
     /bin/bash -c "while true; do sleep 30; done"
 ```
@@ -83,12 +84,12 @@ usermod -aG sudo dev"
 
 ```bash
 docker exec -it rpi5-dev bash -c "
+rm -rf /opt/pico-sdk && \
 git clone -b master https://github.com/raspberrypi/pico-sdk.git /opt/pico-sdk && \
 cd /opt/pico-sdk && \
-git submodule update --init && \
+git submodule update --init --recursive && \
+rm -f /etc/profile.d/pico-sdk.sh && \
 echo 'export PICO_SDK_PATH=/opt/pico-sdk' > /etc/profile.d/pico-sdk.sh && \
-chmod +x /etc/profile.d/pico-sdk.sh && \
-source /etc/profile.d/pico-sdk.sh"
 ```
 
 ## Install picotool
@@ -96,6 +97,7 @@ source /etc/profile.d/pico-sdk.sh"
 ```bash
 docker exec -it rpi5-dev bash -c "
 apt-get update && apt-get install -y libusb-1.0-0-dev git cmake build-essential && \
+rm -rf /opt/picotool && \
 git clone https://github.com/raspberrypi/picotool.git /opt/picotool && \
 cd /opt/picotool && \
 mkdir build && cd build && \
