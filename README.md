@@ -127,6 +127,16 @@ docker exec rpi5-dev locale
 docker exec rpi5-dev bash -c "echo 'set nocompatible' >> \$(eval echo ~dev)/.vimrc"
 ```
 
+#### Change Username (optional)
+
+```bash
+docker exec -it rpi5-dev bash -c "
+usermod -l [USER] dev && \
+usermod -d /home/[USER] -m [USER] && \
+groupmod -n [USER] dev && \
+echo '[USER]:[PASSWORD]' | chpasswd"
+```
+
 ### Login
 
 > If you get `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!` then  
@@ -173,13 +183,4 @@ git config --global --list
 ```bash
 #optional Oh My Zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-
-#### Change Username (optional - in container)
-
-```bash
-docker exec -it rpi5-dev bash -c "
-usermod -l miwa dev && \
-usermod -d /home/miwa -m miwa && \
-groupmod -n miwa dev"
 ```
