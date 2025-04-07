@@ -13,19 +13,22 @@ ssh dev@localhost -p 2222
 
 ## Instructions
 
-### Create project
+### Create project (if you didn't create one on level-2)
 
 ```
 cd ~
 cd ws
-mkdir -p myproject
-cd myproject
-gh repo create
+mkdir -p pico-firmware
+cd pico-firmware
+git init
 ```
 
 ### scaffold project
 
 ```bash
+cd ~
+cd ws
+cd pico-firmware
 mkdir src
 mkdir include
 mkdir tests
@@ -36,20 +39,15 @@ touch ./src/CMakeLists.txt
 touch ./src/main.cpp
 ```
 
-### Set up git
-
-> We use git to
-> 1. Share our work on github
-> 2. Repeat when memorising
->
-> The *.ignore* **url** is not difficult to memorise, it is very useful if you need python .gitignore just change *C%2B%2B* (C++) to *python*.
+### Optional - Connect to empty repository on git
 
 ```bash
-curl -o .gitignore https://raw.githubusercontent.com/github/gitignore/main/C%2B%2B.gitignore
 git init
-git branch -m main # if you didn't change git to use main instead of maste
+git remote add origin git@github.com:<your-username>/<your repository on git>
+git checkout -b main
 git add .
-git commit -m "Initial Commit"
+git commit -m "Initial commit"
+git push -u origin main
 ```
 
 ### CMakeLists.txt (Project Structure) !heredoc
