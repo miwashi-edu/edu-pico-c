@@ -109,6 +109,12 @@ rm -rf myproject
 ```
 
 #### Reset to commit
+
+> This resets the project to last commit.
+> It aids in performing repetitions as
+> it does remove all changes. Just keep
+> track on where your last commit was.
+
 ```bash
 cd ~
 cd ws
