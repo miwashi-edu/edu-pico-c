@@ -23,16 +23,18 @@ cd pico-firmware
 ```bash
 cat > CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.16)
-project(pico-firmware LANGUAGES C CXX)
+
+set(PROJECT_NAME pico-firmware)
+project(\${PROJECT_NAME} LANGUAGES C CXX)
+
+# Load the Pico SDK from the environment
 include(\$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
-project(\${PROJECT} C CXX ASM)
 pico_sdk_init()
 
-target_link_libraries(\${PROJECT} pico_stdlib)
-pico_add_extra_outputs(\${PROJECT})
-pico_enable_stdio_usb(\${PROJECT} 1)
-pico_enable_stdio_uart(\${PROJECT} 0)
+# Set output directory for binaries
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "\${CMAKE_SOURCE_DIR}/bin")
 
+# Add source folder
 add_subdirectory(src)
 EOF
 ```
@@ -41,17 +43,14 @@ EOF
 
 ```bash
 cat > ./src/CMakeLists.txt << EOF
-add_executable(pico-blink main.cpp)
+add_executable(\${PROJECT_NAME} main.cpp)
 
-# Link necessary Pico libraries
-target_link_libraries(pico-blink pico_stdlib)
+target_link_libraries(\${PROJECT_NAME} pico_stdlib)
 
-# Enable USB and UART output
-pico_enable_stdio_usb(pico-blink 1)
-pico_enable_stdio_uart(pico-blink 1)
+pico_enable_stdio_usb(\${PROJECT_NAME} 1)
+pico_enable_stdio_uart(\${PROJECT_NAME} 0)
 
-# Create .uf2 firmware for flashing to the Pico
-pico_add_extra_outputs(pico-blink)
+pico_add_extra_outputs(\${PROJECT_NAME})
 EOF
 ```
 ## ./src/main.cpp
