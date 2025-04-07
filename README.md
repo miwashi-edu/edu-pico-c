@@ -40,6 +40,7 @@ git config --global init.defaultBranch main
 git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
 git config --global github.user "your-github-username"
+git config --global --add safe.directory /opt/pico-sdk
 git config --global --list
 ```
 
