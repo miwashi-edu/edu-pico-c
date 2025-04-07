@@ -81,20 +81,22 @@ EOF
 
 ```bash
 cat > ./blink/CMakeLists.txt << EOF
-add_executable(\${PROJECT_NAME} main.c)
+add_executable(blink main.c)
 
-target_link_libraries(\${PROJECT_NAME} pico_stdlib)
+target_link_libraries(blink pico_stdlib)
 
-pico_enable_stdio_usb(\${PROJECT_NAME} 1)
-pico_enable_stdio_uart(\${PROJECT_NAME} 0)
+if (PICO_CYW43_SUPPORTED)
+    target_link_libraries(blink pico_cyw43_arch_none)
+endif()
 
-pico_add_extra_outputs(\${PROJECT_NAME})
+pico_add_extra_outputs(blink)
 EOF
 ```
 
 ## Build
 
 ```bash
+rm -rf build
 cmake -B build
 cmake --build build
 cp -af ./bin/*.elf ~/share/
