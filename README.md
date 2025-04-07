@@ -25,14 +25,33 @@ docker rm rpi5-dev
 
 ### Create Pico Development Container
 
+
+#### Mac / Linux
 ```bash
+mkdir -p ~/pico-share
 docker run -d --name rpi5-dev \
     --network iotnet \
     --hostname rpi5-dev \
     -p 2222:22 \
+    -v ~/pico-share:/home/dev/share \
     -e TZ=UTC \
     -e PICO_SDK_PATH=/opt/pico-sdk \
     balenalib/raspberrypi5-debian:bookworm \
+    /bin/bash -c "while true; do sleep 30; done"
+```
+
+#### Windows
+
+```bash
+mkdir %USERPROFILE%\pico-share
+docker run -d --name rpi5-dev `
+    --network iotnet `
+    --hostname rpi5-dev `
+    -p 2222:22 `
+    -v ${HOME}/pico-share:/home/dev/share `
+    -e TZ=UTC `
+    -e PICO_SDK_PATH=/opt/pico-sdk `
+    balenalib/raspberrypi5-debian:bookworm `
     /bin/bash -c "while true; do sleep 30; done"
 ```
 
