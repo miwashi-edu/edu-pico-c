@@ -25,7 +25,7 @@ cat > CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.16)
 
 set(PROJECT_NAME pico-firmware)
-project(\${PROJECT_NAME} LANGUAGES C CXX)
+project(\${PROJECT_NAME} LANGUAGES C CXX ASM)
 
 # Load the Pico SDK from the environment
 include(\$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
