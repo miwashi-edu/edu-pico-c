@@ -23,14 +23,13 @@ cat > CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.16)
 project(pico-blink LANGUAGES C CXX)
 
-include(FetchContent)
+# Use the pre-installed Pico SDK (cloned manually)
+include(\$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
 
-FetchContent_MakeAvailable(pico_sdk)
+# Initialize the SDK (will auto-select toolchain)
+pico_sdk_init()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "\${CMAKE_SOURCE_DIR}/bin")
-
-# Initialize the Pico SDK
-pico_sdk_init()
 
 add_subdirectory(src)
 EOF
