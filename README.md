@@ -1,8 +1,9 @@
 # edu-pico-c
 
-> Setup raspberry docker machine
+## 🧠 Teaching Tip
+
+> **In this tutorial, we're using Pico SDK version `2.1.1`**
 >
-> Memorising not priotized, when you don't have more important parts to memorise.
 
 ## Premises
 
