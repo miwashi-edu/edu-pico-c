@@ -13,7 +13,7 @@ ssh dev@localhost -p 2222
 
 ## Instructions
 
-### Create project (if you didn't create one on level-2)
+### Create project (if you didn't create one on level-1)
 
 ```
 cd ~
