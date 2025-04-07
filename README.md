@@ -9,13 +9,13 @@
 
 ```bash
 ssh dev@localhost -p 2222
-cd ..
-cd myproject
+cd ~
+cd pico-firmware
 ```
 
 ## CMakeLists.txt (project config)
 
-> Note if you type this, don't write the backslas onh "\${CMAKE_SOURCE_DIR}/bin"
+> Note: if you type this, don't write the backslash in "\${CMAKE_SOURCE_DIR}/bin"
 
 ```bash
 cat > CMakeLists.txt << EOF
@@ -79,5 +79,7 @@ EOF
 ```bash
 cmake -B build
 cmake --build build
+cp -af ./bin/*.elf ~/share/
+cp -af ./bin/*.uf2 ~/share/
 ```
 
