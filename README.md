@@ -10,6 +10,7 @@
 ```bash
 ssh dev@localhost -p 2222
 cd ~
+cd ws
 cd pico-firmware
 ```
 
