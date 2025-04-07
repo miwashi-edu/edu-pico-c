@@ -128,8 +128,7 @@ docker exec -it rpi5-dev bash -c "
 apt-get install -y locales && \
 echo 'sv_SE.UTF-8 UTF-8' >> /etc/locale.gen && \
 locale-gen sv_SE.UTF-8 && \
-update-locale LANG=sv_SE.UTF-8
-docker exec rpi5-dev locale
+update-locale LANG=sv_SE.UTF-8"
 ```
 
 ### Configure vim
