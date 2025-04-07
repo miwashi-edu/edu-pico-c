@@ -21,15 +21,15 @@ cd pico-firmware
 ```bash
 cat > CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.16)
-project(pico-blink LANGUAGES C CXX)
-
-# Use the pre-installed Pico SDK (cloned manually)
+project(pico-firmware LANGUAGES C CXX)
 include(\$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
-
-# Initialize the SDK (will auto-select toolchain)
+project(\${PROJECT} C CXX ASM)
 pico_sdk_init()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "\${CMAKE_SOURCE_DIR}/bin")
+target_link_libraries(\${PROJECT} pico_stdlib)
+pico_add_extra_outputs(\${PROJECT})
+pico_enable_stdio_usb(\${PROJECT} 1)
+pico_enable_stdio_uart(\${PROJECT} 0)
 
 add_subdirectory(src)
 EOF
