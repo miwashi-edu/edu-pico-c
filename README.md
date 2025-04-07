@@ -20,9 +20,8 @@ cd ~
 cd ws
 mkdir -p myproject
 cd myproject
-gh repo create myproject --public --source=. --remote=origin --push
+gh repo create
 ```
-
 
 ### scaffold project
 
