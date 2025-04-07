@@ -151,7 +151,7 @@ echo '[USER]:[PASSWORD]' | chpasswd"
 > (or with sed) `sed -i.bak '/\[localhost\]:2222/d' ~/.ssh/known_hosts`
 
 ```bash
-ssh [user]@localhost -p 2222
+ssh dev@localhost -p 2222 # Password is dev if you didn't change user
 
 # if WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!
 # vi ~/.ssh/known_hosts
