@@ -48,6 +48,7 @@ apt-get update && apt-get install -y \
     cmake \
     gcc-arm-none-eabi \
     libnewlib-arm-none-eabi \
+    libstdc++-arm-none-eabi-newlib \
     gdb-multiarch \
     openssh-server \
     sudo \
