@@ -99,8 +99,9 @@ chsh -s \$(which zsh) dev"
 ```bash
 docker exec -it rpi5-dev bash -c "
 rm -rf /opt/pico-sdk && \
-git clone -b master https://github.com/raspberrypi/pico-sdk.git /opt/pico-sdk && \
+git clone https://github.com/raspberrypi/pico-sdk.git /opt/pico-sdk && \
 cd /opt/pico-sdk && \
+git checkout 2.1.1 && \
 git submodule update --init --recursive && \
 rm -f /etc/profile.d/pico-sdk.sh && \
 echo 'export PICO_SDK_PATH=/opt/pico-sdk' > /etc/profile.d/pico-sdk.sh"
