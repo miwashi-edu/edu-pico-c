@@ -123,7 +123,8 @@ cmake .. && make && make install"
 
 ### Generate locale
 
-```bashdocker exec -it rpi5-dev bash -c "
+```bash
+docker exec -it rpi5-dev bash -c "
 apt-get install -y locales && \
 echo 'sv_SE.UTF-8 UTF-8' >> /etc/locale.gen && \
 locale-gen sv_SE.UTF-8 && \
