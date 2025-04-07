@@ -14,6 +14,9 @@ echo 'export PICO_SDK_PATH=/opt/pico-sdk' >> /home/dev/.zshrc
 cd ~
 cd ws
 cd pico-firmware
+mkdir blink
+touch ./blink/CMakeLists.txt
+curl -o ./blink/main.c https://raw.githubusercontent.com/raspberrypi/pico-examples/master/blink/blink.c
 ```
 
 ## CMakeLists.txt (project config)
@@ -22,28 +25,56 @@ cd pico-firmware
 
 ```bash
 cat > CMakeLists.txt << EOF
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.12)
 
-set(PROJECT_NAME pico-firmware)
-project(\${PROJECT_NAME} LANGUAGES C CXX ASM)
-
-# Load the Pico SDK from the environment
+# Pull in SDK (must be before project)
+include(pico_sdk_import.cmake)
 include(\$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+#include(pico_extras_import_optional.cmake)
+
+project(pico_firmware C CXX ASM)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+
+if (PICO_SDK_VERSION_STRING VERSION_LESS "2.1.0")
+    message(FATAL_ERROR "Raspberry Pi Pico SDK version 2.1.0 (or later) required. Your version is ${PICO_SDK_VERSION_STRING}")
+endif()
+
+if (NOT DEFINED PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS)
+    set(PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS 3000)
+endif()
+
 pico_sdk_init()
 
-# Set output directory for binaries
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "\${CMAKE_SOURCE_DIR}/bin")
+function(add_subdirectory_exclude_platforms NAME)
+    if (ARGN)
+        if (PICO_PLATFORM IN_LIST ARGN)
+            message("Skipping ${NAME} example which is unsupported on this platform")
+            return()
+        endif()
+        foreach(PATTERN IN LISTS ARGN)
+            string(REGEX MATCH "\${PATTERN}" MATCHED "${PICO_PLATFORM}")
+            string(REGEX MATCH "\${PATTERN}" MATCHED "${PICO_PLATFORM}")
+            if (MATCHED)
+                message("Skipping \${NAME} example which is unsupported on this platform")
+                return()
+            endif()
+        endforeach()
+    endif()
+    add_subdirectory(\${NAME})
+endfunction()
 
-# Add source folder
-add_subdirectory(src)
+
+add_subdirectory_exclude_platforms(blink)
 EOF
 ```
 
-## src/CMakeLists.txt
+## blink/CMakeLists.txt
 
 ```bash
-cat > ./src/CMakeLists.txt << EOF
-add_executable(\${PROJECT_NAME} main.cpp)
+cat > ./blink/CMakeLists.txt << EOF
+add_executable(\${PROJECT_NAME} main.c)
 
 target_link_libraries(\${PROJECT_NAME} pico_stdlib)
 
@@ -51,27 +82,6 @@ pico_enable_stdio_usb(\${PROJECT_NAME} 1)
 pico_enable_stdio_uart(\${PROJECT_NAME} 0)
 
 pico_add_extra_outputs(\${PROJECT_NAME})
-EOF
-```
-## ./src/main.cpp
-
-```bash
-cat > ./src/main.cpp << EOF
-#include "pico/stdlib.h"
-
-int main() {
-    const uint LED_PIN = 25; // Pico onboard LED (GPIO 25)
-    
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
-
-    while (true) {
-        gpio_put(LED_PIN, 1);
-        sleep_ms(500);
-        gpio_put(LED_PIN, 0);
-        sleep_ms(500);
-    }
-}
 EOF
 ```
 
