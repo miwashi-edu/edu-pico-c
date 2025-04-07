@@ -7,10 +7,17 @@
 
 ## Instructions
 
+### Login
+
 ```bash
 ssh dev@localhost -p 2222
-ecport PICO_SDK_PATH=/opt/pico-sdk # If still missing
+export PICO_SDK_PATH=/opt/pico-sdk # If still missing
 # echo 'export PICO_SDK_PATH=/opt/pico-sdk' >> /home/dev/.zshrc
+```
+
+### Scaffold project
+
+```bash
 cd ~
 cd ws
 cd pico-firmware
