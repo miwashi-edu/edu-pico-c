@@ -10,7 +10,7 @@
 ```bash
 ssh dev@localhost -p 2222
 ecport PICO_SDK_PATH=/opt/pico-sdk # If still missing
-echo 'export PICO_SDK_PATH=/opt/pico-sdk' >> /home/dev/.zshrc
+# echo 'export PICO_SDK_PATH=/opt/pico-sdk' >> /home/dev/.zshrc
 cd ~
 cd ws
 cd pico-firmware
