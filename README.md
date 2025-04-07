@@ -69,8 +69,6 @@ endfunction()
 
 
 add_subdirectory_exclude_platforms(blink)
-pico_add_extra_outputs(blink)
-
 EOF
 ```
 
@@ -79,7 +77,7 @@ EOF
 ```bash
 cat > ./blink/CMakeLists.txt << EOF
 add_executable(blink main.c)
-
+pico_add_extra_outputs(blink)
 target_link_libraries(blink pico_stdlib)
 
 if (PICO_CYW43_SUPPORTED)
@@ -95,6 +93,6 @@ rm -rf build
 cmake -B build
 cmake --build build
 cp -af ./bin/*.elf ~/share/
-cp -af ./bin/*.uf2 ~/share/
+cp -af ./bin/*.uf2 ~/share/ # cmake flyttar inte .uf2 filer, du hittar dem i ./build/blink
 ```
 
