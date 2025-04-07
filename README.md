@@ -1,34 +1,5 @@
 # edu-pico-c
 
-## Prepare
-
-```bash
-cd ~
-cd ws
-git clone -b master https://github.com/raspberrypi/pico-sdk.git
-cd pico-sdk
-git submodule update --init
-export PICO_SDK_PATH=~/ws/pico-sdk
-```
-
-
-### Mac
-
-```bash
-brew install picotool
-brew tap ArmMbed/homebrew-formulae
-brew install arm-none-eabi-gcc
-```
-
-### Linux
-
-```bash
-sudo apt update
-sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
-```
-
-### Windows
-
 ```bash
 ```
 
@@ -37,11 +8,14 @@ sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
 ## Instructions
 
 ```bash
+ssh dev@localhost -p 2222
 cd ..
 cd myproject
 ```
 
 ## CMakeLists.txt (project config)
+
+> Note if you type this, don't write the backslas onh "\${CMAKE_SOURCE_DIR}/bin"
 
 ```bash
 cat > CMakeLists.txt << EOF
@@ -49,11 +23,7 @@ cmake_minimum_required(VERSION 3.16)
 project(pico-blink LANGUAGES C CXX)
 
 include(FetchContent)
-FetchContent_Declare(
-  pico_sdk
-  GIT_REPOSITORY https://github.com/raspberrypi/pico-sdk.git
-  GIT_TAG master  # Or pin to a specific release
-)
+
 FetchContent_MakeAvailable(pico_sdk)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "\${CMAKE_SOURCE_DIR}/bin")
@@ -102,5 +72,12 @@ int main() {
     }
 }
 EOF
+```
+
+## Build
+
+```bash
+cmake -B build
+cmake --build build
 ```
 
