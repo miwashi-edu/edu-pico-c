@@ -3,7 +3,7 @@
 ## 🧠 Teaching Tip
 
 > **In this tutorial, we're using Pico SDK version `2.1.1`**
->
+> **Restart SSH if stopped** `docker exec -it rpi5-dev bash -c "service ssh restar"`
 
 ## Premises
 
