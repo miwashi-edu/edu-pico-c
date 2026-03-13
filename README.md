@@ -43,6 +43,8 @@ FetchContent_Declare(
     GIT_SUBMODULES_RECURSE TRUE
 )
 
+set(PICOTOOL_FETCH_FROM_GIT ON)
+set(PICOTOOL_FETCH_FROM_GIT_PATH ${CMAKE_SOURCE_DIR}/build/_deps)
 FetchContent_MakeAvailable(pico_sdk)
 
 include(\${pico_sdk_SOURCE_DIR}/external/pico_sdk_import.cmake)
