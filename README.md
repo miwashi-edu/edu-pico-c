@@ -33,19 +33,25 @@ curl -o ./blink/main.c https://raw.githubusercontent.com/raspberrypi/pico-exampl
 ```bash
 cat > CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 3.12)
-include(\$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+
+include(FetchContent)
+
+FetchContent_Declare(
+    pico_sdk
+    GIT_REPOSITORY https://github.com/raspberrypi/pico-sdk.git
+    GIT_TAG 2.1.0
+    GIT_SUBMODULES_RECURSE TRUE
+)
+
+FetchContent_MakeAvailable(pico_sdk)
+
+set(PICO_SDK_PATH ${pico_sdk_SOURCE_DIR})
+include(${PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+
 project(pico_firmware C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY \${CMAKE_SOURCE_DIR}/bin)
-
-if (PICO_SDK_VERSION_STRING VERSION_LESS "2.1.0")
-    message(FATAL_ERROR "Raspberry Pi Pico SDK version 2.1.0 (or later) required. Your version is ${PICO_SDK_VERSION_STRING}")
-endif()
-
-if (NOT DEFINED PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS)
-    set(PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS 3000)
-endif()
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 pico_sdk_init()
 
