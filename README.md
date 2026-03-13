@@ -45,7 +45,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(pico_sdk)
 
-include(${pico_sdk_SOURCE_DIR}/external/pico_sdk_import.cmake)
+include(\${pico_sdk_SOURCE_DIR}/external/pico_sdk_import.cmake)
 
 project(pico_firmware C CXX ASM)
 set(CMAKE_C_STANDARD 11)
