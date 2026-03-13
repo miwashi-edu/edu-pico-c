@@ -32,7 +32,7 @@ curl -o ./blink/main.c https://raw.githubusercontent.com/raspberrypi/pico-exampl
 
 ```bash
 cat > CMakeLists.txt << EOF
-cmake_minimum_required(VERSION 3.12)
+make_minimum_required(VERSION 3.12)
 
 include(FetchContent)
 
@@ -45,8 +45,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(pico_sdk)
 
-set(PICO_SDK_PATH ${pico_sdk_SOURCE_DIR})
-include(${PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+include(${pico_sdk_SOURCE_DIR}/external/pico_sdk_import.cmake)
 
 project(pico_firmware C CXX ASM)
 set(CMAKE_C_STANDARD 11)
