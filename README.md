@@ -32,7 +32,7 @@ curl -o ./blink/main.c https://raw.githubusercontent.com/raspberrypi/pico-exampl
 
 ```bash
 cat > CMakeLists.txt << EOF
-make_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.12)
 
 include(FetchContent)
 
